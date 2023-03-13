@@ -10,6 +10,7 @@ import { News } from '../../../shared/model/news.model';
 })
 export class NewsitemComponent implements OnInit {
   @Input() item!: News;
+  @Input() arr!: any;
   @Output() editClick = new EventEmitter();
   newsList$: Observable<News[]> = of([]);
   shortNews = true;

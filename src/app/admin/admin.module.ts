@@ -11,9 +11,16 @@ import { EditingUserDataComponent } from './components/editing-user-data/editing
 import { DeletingUserComponent } from './components/deleting-user/deleting-user.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ListOfUsersComponent } from './components/list-of-users/list-of-users.component';
+import {MatSortModule} from "@angular/material/sort";
 
 @NgModule({
-  declarations: [AdminLayoutComponent, EditingUserDataComponent, DeletingUserComponent, PagesComponent, ListOfUsersComponent],
+  declarations: [
+    AdminLayoutComponent,
+    EditingUserDataComponent,
+    DeletingUserComponent,
+    PagesComponent,
+    ListOfUsersComponent
+  ],
   imports: [
     CommonModule,
     MaterialModule,
@@ -23,12 +30,13 @@ import { ListOfUsersComponent } from './components/list-of-users/list-of-users.c
         path: '',
         component: AdminLayoutComponent,
         children: [
-          { path: '', redirectTo: '/admin/list', pathMatch: 'full' },
-          { path: 'pages', canActivate: [MyAuthGuard], component: PagesComponent },
-          { path: 'list', canActivate: [MyAuthGuard], component: ListOfUsersComponent },
+          {path: '', redirectTo: '/admin/list', pathMatch: 'full'},
+          {path: 'pages', canActivate: [MyAuthGuard], component: PagesComponent},
+          {path: 'list', canActivate: [MyAuthGuard], component: ListOfUsersComponent},
         ],
       },
     ]),
+    MatSortModule,
   ],
   exports: [RouterModule],
 })

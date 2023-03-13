@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class NewsComponent implements OnInit {
   newsList$: Observable<News[]> = of([]);
+  array: any = 'text'
 
   constructor(private dataService: DataService, private router: Router) {}
 
@@ -30,7 +31,7 @@ export class NewsComponent implements OnInit {
     this.router.navigate(['new-news'], {
       state: item,
     });
-  }
+    }
 
   deleteNewses() {
     this.dataService.deleteNewses().subscribe();

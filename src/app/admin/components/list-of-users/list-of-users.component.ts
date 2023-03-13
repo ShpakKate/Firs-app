@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import { Observable, of, switchMap, tap } from 'rxjs';
 import { AuthenticationService } from '../../../../shared/services/authentication.service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -14,38 +14,44 @@ import { MatPaginator } from '@angular/material/paginator';
   templateUrl: './list-of-users.component.html',
   styleUrls: ['./list-of-users.component.scss'],
 })
-export class ListOfUsersComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'username', 'role', 'password'];
-  dataSource = new MatTableDataSource();
+export class ListOfUsersComponent implements OnInit, AfterViewInit {
+  displayedColumns: string[] = ['id', 'username', 'role', 'password', 'symbol'];
   userList$: Observable<User[]> = of([]);
+  dataSource!: MatTableDataSource<User>;
   notAdmin = false;
+  usersLength!: number;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private auth: AuthenticationService, public dialog: MatDialog) {
-    this.auth.getList().pipe(
-      tap(() => {
-        console.log(this.dataSource.data);
-      })
-    );
-  }
+  constructor(
+    private auth: AuthenticationService,
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     this.loadData().subscribe();
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => this.dataSource.paginator = this.paginator);
+    setTimeout(() => this.dataSource.sort = this.sort);
+
   }
 
   loadData() {
     return this.auth.getList().pipe(
       tap(data => {
         this.userList$ = of(data);
+        this.dataSource = new MatTableDataSource(data)
+        this.usersLength = data.length
         this.notAdmin = false;
       })
     );
   }
 
-  applyFilter() {
-    const filterValue = (event?.target as HTMLInputElement).value;
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
     if (this.dataSource.paginator) {

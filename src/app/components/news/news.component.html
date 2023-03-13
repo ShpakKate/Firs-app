@@ -4,6 +4,7 @@
   [item]="item"
   *ngFor="let item of newsList$ | async"
   (editClick)="onEditNews(item)"
+  [arr]="array"
 ></app-newsitem>
 
 <button

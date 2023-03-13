@@ -5,7 +5,7 @@
     <mat-label> Filter </mat-label>
     <input
       matInput
-      (keyup)="applyFilter()"
+      (keyup)="applyFilter($event)"
       placeholder="Ex. Mia"
       #input
     />
@@ -13,8 +13,9 @@
 
   <table
     mat-table
-    [dataSource]="userList$"
+    [dataSource]="dataSource"
     class="mat-elevation-z8"
+    matSort
   >
     <ng-container matColumnDef="id">
       <th
@@ -125,6 +126,7 @@
   </table>
 
   <mat-paginator
+    [length]="usersLength"
     [pageSizeOptions]="[5, 10, 20]"
     aria-label="Select page of users"
   ></mat-paginator>
